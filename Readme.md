@@ -1,6 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Анна Колесникова](https://up.htmlacademy.ru/javascript/16/user/791821).
+*
 * Наставник: [Мурат Баркинхоев](https://vk.com/id440948878).
 
 ---
