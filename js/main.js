@@ -303,6 +303,24 @@ capacitySelect.addEventListener('click', function () {
   capacitySelect.setCustomValidity('');
 });
 
+//  Плейсхолдер цены в зависимости от типа жилья
+var typeHouse = document.querySelector('#type');
+var price = document.querySelector('#price');
+
+typeHouse.addEventListener('change', function () {
+  if (typeHouse.value === 'house') {
+    price.placeholder = '5000';
+  }
+  if (typeHouse.value === 'bungalo') {
+    price.placeholder = '0';
+  }
+  if (typeHouse.value === 'flat') {
+    price.placeholder = '1000';
+  }
+  if (typeHouse.value === 'palace') {
+    price.placeholder = '10 000';
+  }
+});
 
 // Перетаскивание метки
 
@@ -353,8 +371,8 @@ dialogHandle.addEventListener('mousedown', function (evt) {
     if (map.classList.contains('map--faded')) {
       createActiveElement();
     }
-    var adress1 = mapPin.style.top;
-    var adress2 = mapPin.style.left;
+    var adress1 = pointTop + 12;
+    var adress2 = pointLeft + 7;
     addressId.setAttribute('placeholder', adress1 + ',' + ' ' + adress2);
   };
 
