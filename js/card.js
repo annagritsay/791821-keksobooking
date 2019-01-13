@@ -10,7 +10,7 @@
     var elementCard = mapCard.cloneNode(true);
     elementCard.querySelector('.popup__avatar').src = window.arrayElement[indexCard].author.avatar;
     elementCard.querySelector('.popup__title').textContent = window.arrayElement[indexCard].offer.title;
-    elementCard.querySelector('.popup__text--address').textContent = window.arrayElement[indexCard].offer.address + ' Tōkyō-to, Chiyoda-ku, Ichibanchō, 14−3';
+    elementCard.querySelector('.popup__text--address').textContent = window.arrayElement[indexCard].offer.address;
     elementCard.querySelector('.popup__text--price').textContent = window.arrayElement[indexCard].offer.price + ' ₽/ночь';
     elementCard.setAttribute('style', 'display: ' + 'none' + ';');
     if (window.arrayElement[indexCard].offer.type === 'palace') {
@@ -34,17 +34,24 @@
     for (var indexFeature = 0; indexFeature < popupFeature.length; indexFeature++) {
       popupFeature[indexFeature].setAttribute('style', 'display: ' + 'none' + ';');
     }
-    //  Добавляю классы имеющихся преимуществ
-    for (var indexFeatureAvailable = 0; indexFeatureAvailable < window.arrayElement[indexCard].offer.features.length; indexFeatureAvailable++) {
-      elementCard.querySelector('.popup__feature' + '--' + window.arrayElement[indexCard].offer.features[indexFeatureAvailable]).setAttribute('style', 'display: ' + 'inline-block' + ';');
-    }
-    elementCard.querySelector('.popup__description').textContent = window.arrayElement[indexCard].offer.description;
 
-    elementCard.querySelector('.popup__photo').src = window.arrayElement[indexCard].offer.photos[0];
-    for (var i = 1; i <= 2; i++) {
-      var popupPhoto = elementCard.querySelector('.popup__photo').cloneNode(true);
-      popupPhoto.src = window.arrayElement[indexCard].offer.photos[i];
-      elementCard.querySelector('.popup__photos').appendChild(popupPhoto);
+    if (window.arrayElement[indexCard].offer.features.length > 0) {
+      //  Добавляю классы имеющихся преимуществ
+      for (var indexFeatureAvailable = 0; indexFeatureAvailable < window.arrayElement[indexCard].offer.features.length; indexFeatureAvailable++) {
+        elementCard.querySelector('.popup__feature' + '--' + window.arrayElement[indexCard].offer.features[indexFeatureAvailable]).setAttribute('style', 'display: ' + 'inline-block' + ';');
+      }
+      elementCard.querySelector('.popup__description').textContent = window.arrayElement[indexCard].offer.description;
+    }
+
+    if (window.arrayElement[indexCard].offer.photos.length > 0) {
+      elementCard.querySelector('.popup__photo').src = window.arrayElement[indexCard].offer.photos[0];
+      for (var i = 1; i < window.arrayElement[indexCard].offer.photos.length; i++) {
+        var popupPhoto = elementCard.querySelector('.popup__photo').cloneNode(true);
+        popupPhoto.src = window.arrayElement[indexCard].offer.photos[i];
+        elementCard.querySelector('.popup__photos').appendChild(popupPhoto);
+      }
+    } else {
+      elementCard.querySelector('.popup__photo').setAttribute('style', 'display: ' + 'none' + ';');
     }
     fragmentCard.appendChild(elementCard);
   };
@@ -54,7 +61,7 @@
 
   /*  Функция создания всех карточек  */
   window.createCards = function () {
-    for (var indexCard = 0; indexCard < window.objNumber; indexCard++) {
+    for (var indexCard = 0; indexCard < window.arrayElement.length; indexCard++) {
       createCard(indexCard);
     }
     containerCard.insertBefore(fragmentCard, filtersContainer);

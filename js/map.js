@@ -12,7 +12,6 @@
     val.setAttribute('disabled', true);
   });
 
-
   // Возвращает активность полям (вызывает функцию создания меток и карточек, и все последующие действия происходят внутри этой функции)
   var map = document.querySelector('.map');
   var mapPin = document.querySelector('.map__pin--main');
@@ -26,7 +25,7 @@
     fieldsetAllArray.forEach(function (val) {
       val.removeAttribute('disabled', true);
     });
-    addressId.setAttribute('placeholder', '570, 375');
+    addressId.setAttribute('value', '570, 375');
 
     var mapPinAll = document.querySelectorAll('.map__pin');
     var mapCardAll = document.querySelectorAll('.map__card');
@@ -35,7 +34,6 @@
 
     // ИСКЛЮЧАЕТ ИЗ МАССИВА ГЛАВНУЮ МЕТКУ
     mapPinAllArray.splice(0, 1);
-
     // Функция открытия карточки
     var openCard = function (index) {
       mapCardAllArray.forEach(function (value) {
@@ -58,15 +56,15 @@
         openCard(index);
       });
       currentValue.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === 13) {
+        if (evt.keyCode === window.util.ESC_KEYCODE) {
           openCard(index);
         }
       });
       buttonClose[index].addEventListener('keydown', function (evt) {
-        if (evt.keyCode === 13) {
+        if (evt.keyCode === window.util.ESC_KEYCODE) {
           popupClose();
         }
-        if (evt.keyCode === 27) {
+        if (evt.keyCode === window.util.ENTER_KEYCODE) {
           popupClose();
         }
       });
@@ -119,9 +117,32 @@
     }
   });
 
+  //  Синхронизация времени заезда-выезда
+
+  var timein = document.querySelector('#timein').querySelectorAll('option');
+  var timeout = document.querySelector('#timeout').querySelectorAll('option');
+  var timeinSelect = document.querySelector('#timein');
+  var timeoutSelect = document.querySelector('#timeout');
+
+  timeinSelect.addEventListener('change', function () {
+    timeout.forEach(function (val) {
+      val.removeAttribute('selected');
+    });
+    var optionIndex = timeinSelect.selectedIndex;
+    timeout[optionIndex].setAttribute('selected', true);
+    timeoutSelect.value = timeout[optionIndex].value;
+  });
+
+  timeoutSelect.addEventListener('change', function () {
+    timein.forEach(function (val) {
+      val.removeAttribute('selected');
+    });
+    var optionIndex = timeoutSelect.selectedIndex;
+    timein[optionIndex].setAttribute('selected', true);
+    timeinSelect.value = timein[optionIndex].value;
+  });
 
   // Валидация формы
-
 
   var buttonSubmit = document.querySelector('.ad-form__submit');
 
@@ -194,11 +215,11 @@
       // var widthMap = card.clientWidth || card.offsetWidth;
 
       var pointLeft = dialogHandle.offsetLeft - shift.x;
-      if (pointLeft < 10) {
-        pointLeft = 10;
+      if (pointLeft < -20) {
+        pointLeft = -20;
       }
-      if (pointLeft > 1120) {
-        pointLeft = 1120;
+      if (pointLeft > 1160) {
+        pointLeft = 1160;
       }
 
       dialogHandle.style.top = (pointTop) + 'px';
@@ -208,7 +229,7 @@
       }
       var adress1 = pointTop + 12;
       var adress2 = pointLeft + 7;
-      addressId.setAttribute('placeholder', adress1 + ',' + ' ' + adress2);
+      addressId.setAttribute('value', adress1 + ',' + ' ' + adress2);
     };
 
     var onMouseUp = function (upEvt) {
@@ -220,5 +241,27 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+  });
+
+  // Отправка данных на сервер, возвращение неактивного состояния карты
+
+  adForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(adForm));
+    adForm.classList.add('ad-form--disabled');
+    map.classList.add('map--faded');
+    mapPin.setAttribute('style', 'left: ' + 570 + 'px; ' + 'top: ' + 375 + 'px;');
+    var mapPinAll = document.querySelectorAll('.map__pin');
+    var mapCardAll = document.querySelectorAll('.map__card');
+    var mapPinAllArray = Array.prototype.slice.call(mapPinAll);
+    mapPinAllArray.splice(0, 1);
+    var mapCardAllArray = Array.prototype.slice.call(mapCardAll);
+    mapCardAllArray.forEach(function (value) {
+      value.setAttribute('style', 'display: ' + 'none' + ';');
+    });
+    mapPinAllArray.forEach(function (value) {
+      value.setAttribute('style', 'display: ' + 'none' + ';');
+    });
+    evt.preventDefault();
+    adForm.reset();
   });
 })();
