@@ -61,7 +61,7 @@
 
   /*  Функция создания всех карточек  */
   window.createCards = function () {
-    for (var indexCard = 0; indexCard < window.arrayElement.length; indexCard++) {
+    for (var indexCard = 0; indexCard < window.arrayElement.length && indexCard < 5; indexCard++) {
       createCard(indexCard);
     }
     containerCard.insertBefore(fragmentCard, filtersContainer);

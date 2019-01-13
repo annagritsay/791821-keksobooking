@@ -18,7 +18,7 @@
 
   /*  Функция создания всех меток на карте  */
   window.createButtons = function () {
-    for (var indexButton = 0; indexButton < window.arrayElement.length; indexButton++) {
+    for (var indexButton = 0; indexButton < window.arrayElement.length && indexButton < 5; indexButton++) {
       createButton(indexButton);
     }
     mapPins.appendChild(fragment);

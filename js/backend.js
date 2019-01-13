@@ -13,6 +13,7 @@
       if (xhr.status === 200) {
         window.onLoad(xhr.response);
         window.arrayElement = xhr.response;
+        window.copyArrayElement = window.arrayElement;
       } else {
         window.onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }

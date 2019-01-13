@@ -256,12 +256,136 @@
     mapPinAllArray.splice(0, 1);
     var mapCardAllArray = Array.prototype.slice.call(mapCardAll);
     mapCardAllArray.forEach(function (value) {
-      value.setAttribute('style', 'display: ' + 'none' + ';');
+      value.remove();
     });
     mapPinAllArray.forEach(function (value) {
-      value.setAttribute('style', 'display: ' + 'none' + ';');
+      value.remove();
     });
     evt.preventDefault();
     adForm.reset();
   });
+
+
+  // ФИЛЬТРАЦИЯ МЕТОК
+  var housingTypeSelect = document.querySelector('#housing-type');
+  var housingPrice = document.querySelector('#housing-price');
+  var housingRooms = document.querySelector('#housing-rooms');
+  var housingGuests = document.querySelector('#housing-guests');
+
+
+  housingTypeSelect.addEventListener('change', function () {
+    window.arrayElement = window.copyArrayElement;
+    if (housingTypeSelect.value === 'any') {
+      var newArray = window.copyArrayElement;
+    } else {
+      newArray = window.arrayElement.filter(function (it) {
+        return it.offer.type === housingTypeSelect.value;
+      });
+    }
+    var mapPinAll = document.querySelectorAll('.map__pin');
+    var mapCardAll = document.querySelectorAll('.map__card');
+    var mapPinAllArray = Array.prototype.slice.call(mapPinAll);
+    mapPinAllArray.splice(0, 1);
+    var mapCardAllArray = Array.prototype.slice.call(mapCardAll);
+
+    mapCardAllArray.forEach(function (value) {
+      value.remove();
+    });
+    mapPinAllArray.forEach(function (value) {
+      value.remove();
+    });
+    window.arrayElement = newArray;
+    console.log(window.arrayElement);
+    createActiveElement();
+  });
+
+
+  housingPrice .addEventListener('change', function () {
+    window.arrayElement = window.copyArrayElement;
+
+    if (housingPrice.value === 'any') {
+      var newArray = window.copyArrayElement;
+    } else if (housingPrice.value === 'middle') {
+      newArray = window.arrayElement.filter(function (it) {
+        return it.offer.price > 10000 && it.offer.price < 50000;
+      });
+    } else if (housingPrice.value === 'low') {
+      newArray = window.arrayElement.filter(function (it) {
+        return it.offer.price < 10000;
+      });
+    } else if (housingPrice.value === 'high') {
+      newArray = window.arrayElement.filter(function (it) {
+        return it.offer.price > 50000;
+      });
+    }
+    var mapPinAll = document.querySelectorAll('.map__pin');
+    var mapCardAll = document.querySelectorAll('.map__card');
+    var mapPinAllArray = Array.prototype.slice.call(mapPinAll);
+    mapPinAllArray.splice(0, 1);
+    var mapCardAllArray = Array.prototype.slice.call(mapCardAll);
+
+    mapCardAllArray.forEach(function (value) {
+      value.remove();
+    });
+    mapPinAllArray.forEach(function (value) {
+      value.remove();
+    });
+    window.arrayElement = newArray;
+    console.log(window.arrayElement);
+    createActiveElement();
+  });
+
+
+  housingRooms.addEventListener('change', function () {
+    window.arrayElement = window.copyArrayElement;
+    if (housingRooms.value === 'any') {
+      var newArray = window.copyArrayElement;
+    } else {
+      newArray = window.arrayElement.filter(function (it) {
+        return it.offer.rooms === Number(housingRooms.value);
+      });
+    }
+    var mapPinAll = document.querySelectorAll('.map__pin');
+    var mapCardAll = document.querySelectorAll('.map__card');
+    var mapPinAllArray = Array.prototype.slice.call(mapPinAll);
+    mapPinAllArray.splice(0, 1);
+    var mapCardAllArray = Array.prototype.slice.call(mapCardAll);
+
+    mapCardAllArray.forEach(function (value) {
+      value.remove();
+    });
+    mapPinAllArray.forEach(function (value) {
+      value.remove();
+    });
+    window.arrayElement = newArray;
+    console.log(window.arrayElement);
+    createActiveElement();
+  });
+
+  housingGuests.addEventListener('change', function () {
+    window.arrayElement = window.copyArrayElement;
+    if (housingGuests.value === 'any') {
+      var newArray = window.copyArrayElement;
+    } else {
+      newArray = window.arrayElement.filter(function (it) {
+        return it.offer.guests === Number(housingGuests.value);
+      });
+    }
+    var mapPinAll = document.querySelectorAll('.map__pin');
+    var mapCardAll = document.querySelectorAll('.map__card');
+    var mapPinAllArray = Array.prototype.slice.call(mapPinAll);
+    mapPinAllArray.splice(0, 1);
+    var mapCardAllArray = Array.prototype.slice.call(mapCardAll);
+
+    mapCardAllArray.forEach(function (value) {
+      value.remove();
+    });
+    mapPinAllArray.forEach(function (value) {
+      value.remove();
+    });
+    window.arrayElement = newArray;
+    console.log(window.arrayElement);
+    createActiveElement();
+  });
+
 })();
